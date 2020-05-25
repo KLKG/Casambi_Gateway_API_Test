@@ -1,6 +1,7 @@
 // UDP_Test.cpp : Diese Datei enthält die Funktion "main". Hier beginnt und endet die Ausführung des Programms.
 //
 
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 
 #include <iostream>
 #include "conio.h"
@@ -11,18 +12,17 @@
 #include <windows.h>
 #include <sstream>
 #include <iomanip>
+#include <cstring> 
 
 #pragma comment(lib, "Ws2_32.lib")
 
 using namespace std;
 
-#define MYPORT 10009    // the port users will be connecting to
-
 template <typename T>
-inline std::string int_to_hex(T val, size_t width = sizeof(T) * 2)
+inline string int_to_hex(T val, size_t width = sizeof(T) * 2)
 {
-    std::stringstream ss;
-    ss << std::setfill('0') << std::setw(width) << std::hex << (val | 0);
+    stringstream ss;
+    ss << setfill('0') << setw(width) << hex << (val | 0);
     return ss.str();
 }
 
@@ -31,6 +31,21 @@ int main(){
     cout << "\u00a92020: Lichtmanufaktur Berlin GmbH\r\n";
     cout << "---------------------------------------\r\n";
     cout << "\r\n";
+
+    string submitted_ip;
+    cout << "Please enter IP-Adress (XXX.XXX.XXX.255):";
+    cin >> submitted_ip;
+    cout << "You have entered: " + submitted_ip + "\r\n";
+
+    int submitted_port;
+    cout << "Please enter the used port (10009):";
+    cin >> submitted_port;
+    cout << "You have entered: " + to_string(submitted_port) + "\r\n";
+
+    int submitted_net_id;
+    cout << "Please enter the used net_id (0-255):";
+    cin >> submitted_net_id;
+    cout << "You have entered: " + to_string(submitted_net_id) + "\r\n";
 
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -56,10 +71,8 @@ int main(){
     char sendMSG[] = "Broadcast message from Tester\r\n";
 
     Recv_addr.sin_family = AF_INET;
-    Recv_addr.sin_port = htons(MYPORT);
+    Recv_addr.sin_port = htons(submitted_port);
     Recv_addr.sin_addr.s_addr = INADDR_ANY;
-
-    unsigned char net_id = 0;
 
     if (bind(sock, (sockaddr*)&Recv_addr, sizeof(Recv_addr)) < 0){
         cout << "Error in BINDING" << WSAGetLastError() << "\r\n";
@@ -69,7 +82,7 @@ int main(){
     }
 
     string command_begin;
-    command_begin = to_string(net_id) + ".72.";
+    command_begin = to_string(submitted_net_id) + ".72.";
 
     string command_end;
     command_end = "\r\n";
@@ -86,7 +99,7 @@ int main(){
         char command_cstr[40];
         strncpy_s(command_cstr, command.c_str(), command.length());
 
-        InetPton(AF_INET, _T("192.168.20.255"), &Recv_addr.sin_addr.s_addr);
+        Recv_addr.sin_addr.s_addr = inet_addr(submitted_ip.c_str());
         if (sendto(sock, command_cstr, strlen(sendMSG) + 1, 0, (sockaddr*)&Recv_addr, sizeof(Sender_addr)) < 0) {
             cout << "Error in Sending." << WSAGetLastError() << "\r\n";
             cout << "Press any key to continue....\r\n";
@@ -112,7 +125,7 @@ int main(){
             net_id_rcv = stoi(sub_string);
             cout << "net_id: " << sub_string << "\r\n";
             recvbuff_string.erase(0, position+1);
-            if (net_id == net_id_rcv) {
+            if (submitted_net_id == net_id_rcv) {
                 //command_direction
                 position = recvbuff_string.find(".");
                 sub_string = recvbuff_string.substr(0, position);
@@ -148,7 +161,6 @@ int main(){
                     priority_nodetyp = stoi(sub_string, NULL, 16);
                     priority_nodetyp_tmp = priority_nodetyp << 2;
                     priority_nodetyp_tmp = priority_nodetyp_tmp >> 2;
-                    cout << "Priority_NodeType: " << sub_string << "\r\n";
                     cout << "Priority: " << to_string(priority_nodetyp_tmp) << "\r\n";
                     priority_nodetyp_tmp = priority_nodetyp >> 6;
                     cout << "Node_type: " << to_string(priority_nodetyp_tmp) << "\r\n";
