@@ -1,0 +1,3 @@
+﻿D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(448,5): warning MSB8003: Die VCToolsInstallDir-Eigenschaft ist nicht definiert. Einige Buildtools werden möglicherweise nicht gefunden.
+  TRACKER : Fehler TRK0005: Fehler beim Suchen von "CL.exe". Das System kann die angegebene Datei nicht finden.
+D:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(507,5): error MSB6006: "CL.exe" wurde mit dem Code 5 beendet.
