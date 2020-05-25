@@ -9,6 +9,8 @@
 #include "tchar.h"
 #include <string> 
 #include <windows.h>
+#include <sstream>
+#include <iomanip>
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -16,7 +18,13 @@ using namespace std;
 
 #define MYPORT 10009    // the port users will be connecting to
 
-
+template <typename T>
+inline std::string int_to_hex(T val, size_t width = sizeof(T) * 2)
+{
+    std::stringstream ss;
+    ss << std::setfill('0') << std::setw(width) << std::hex << (val | 0);
+    return ss.str();
+}
 
 int main(){
     cout << "UDP Casambi API-Tester\r\n";
@@ -74,11 +82,11 @@ int main(){
         }
 
         string command;
-        command = command_begin + "2.39."+ to_string(casambi_id) + command_end;
+        command = command_begin + "2.39."+ int_to_hex(casambi_id, 2) + command_end;
         char command_cstr[40];
         strncpy_s(command_cstr, command.c_str(), command.length());
 
-        InetPton(AF_INET, _T("192.168.178.255"), &Recv_addr.sin_addr.s_addr);
+        InetPton(AF_INET, _T("192.168.20.255"), &Recv_addr.sin_addr.s_addr);
         if (sendto(sock, command_cstr, strlen(sendMSG) + 1, 0, (sockaddr*)&Recv_addr, sizeof(Sender_addr)) < 0) {
             cout << "Error in Sending." << WSAGetLastError() << "\r\n";
             cout << "Press any key to continue....\r\n";
@@ -96,73 +104,78 @@ int main(){
 
             int position;
             string sub_string;
+            int net_id_rcv = 255;
 
             //net_id
             position = recvbuff_string.find(".");
             sub_string = recvbuff_string.substr(0, position);
+            net_id_rcv = stoi(sub_string);
             cout << "net_id: " << sub_string << "\r\n";
             recvbuff_string.erase(0, position+1);
-            //command_direction
-            position = recvbuff_string.find(".");
-            sub_string = recvbuff_string.substr(0, position);
-            cout << "command_direction: " << sub_string << "\r\n";
-            recvbuff_string.erase(0, position + 1); 
-            //length
-            position = recvbuff_string.find(".");
-            sub_string = recvbuff_string.substr(0, position);
-            cout << "length: " << sub_string << "\r\n";
-            string command_length = sub_string;
-            recvbuff_string.erase(0, position + 1); 
-            //command_id
-            position = recvbuff_string.find(".");
-            sub_string = recvbuff_string.substr(0, position);
-            if (sub_string == "39") {
-                cout << "command_id: Node Status\r\n";
-                recvbuff_string.erase(0, position + 1);
-                //unit_id
+            if (net_id == net_id_rcv) {
+                //command_direction
                 position = recvbuff_string.find(".");
                 sub_string = recvbuff_string.substr(0, position);
-                cout << "Unit_ID: " << sub_string << "\r\n";
+                cout << "command_direction: " << sub_string << "\r\n";
                 recvbuff_string.erase(0, position + 1);
-                //Scene
+                //length
                 position = recvbuff_string.find(".");
                 sub_string = recvbuff_string.substr(0, position);
-                cout << "Scene: " << sub_string << "\r\n";
+                cout << "length: " << sub_string << "\r\n";
+                string command_length = sub_string;
                 recvbuff_string.erase(0, position + 1);
-                //priority + nodetyp
+                //command_id
                 position = recvbuff_string.find(".");
                 sub_string = recvbuff_string.substr(0, position);
-                unsigned char priority_nodetyp = 0;
-                unsigned char priority_nodetyp_tmp = 0;
-                priority_nodetyp = stoi(sub_string, NULL, 16);
-                priority_nodetyp_tmp = priority_nodetyp << 2;
-                priority_nodetyp_tmp = priority_nodetyp_tmp >> 2;
-                cout << "Priority_NodeType: " << sub_string << "\r\n";
-                cout << "Priority: " << to_string(priority_nodetyp_tmp) << "\r\n";
-                priority_nodetyp_tmp = priority_nodetyp >> 6;
-                cout << "Node_type: " << to_string(priority_nodetyp_tmp) << "\r\n";
-                recvbuff_string.erase(0, position + 1);
-                //condition
-                position = recvbuff_string.find(".");
-                sub_string = recvbuff_string.substr(0, position);
-                cout << "Condition: " << sub_string << "\r\n";
-                recvbuff_string.erase(0, position + 1);
-                //condition
-                position = recvbuff_string.find(".");
-                sub_string = recvbuff_string.substr(0, position);
-                unsigned char online = 0;
-                unsigned char online_tmp = 0;
-                online = stoi(sub_string);
-                online_tmp = online << 7;
-                online_tmp = online_tmp >> 7;
-                cout << "online: " << to_string(online_tmp) << "\r\n";
-                recvbuff_string.erase(0, position + 1);
-            } else {
-                cout << "command_id: " << sub_string << "\r\n";
+                if (sub_string == "39") {
+                    cout << "command_id: Node Status\r\n";
+                    recvbuff_string.erase(0, position + 1);
+                    //unit_id
+                    position = recvbuff_string.find(".");
+                    sub_string = recvbuff_string.substr(0, position);
+                    cout << "Unit_ID: " << sub_string << "\r\n";
+                    recvbuff_string.erase(0, position + 1);
+                    //Scene
+                    position = recvbuff_string.find(".");
+                    sub_string = recvbuff_string.substr(0, position);
+                    cout << "Scene: " << sub_string << "\r\n";
+                    recvbuff_string.erase(0, position + 1);
+                    //priority + nodetyp
+                    position = recvbuff_string.find(".");
+                    sub_string = recvbuff_string.substr(0, position);
+                    unsigned char priority_nodetyp = 0;
+                    unsigned char priority_nodetyp_tmp = 0;
+                    priority_nodetyp = stoi(sub_string, NULL, 16);
+                    priority_nodetyp_tmp = priority_nodetyp << 2;
+                    priority_nodetyp_tmp = priority_nodetyp_tmp >> 2;
+                    cout << "Priority_NodeType: " << sub_string << "\r\n";
+                    cout << "Priority: " << to_string(priority_nodetyp_tmp) << "\r\n";
+                    priority_nodetyp_tmp = priority_nodetyp >> 6;
+                    cout << "Node_type: " << to_string(priority_nodetyp_tmp) << "\r\n";
+                    recvbuff_string.erase(0, position + 1);
+                    //condition
+                    position = recvbuff_string.find(".");
+                    sub_string = recvbuff_string.substr(0, position);
+                    cout << "Condition: " << sub_string << "\r\n";
+                    recvbuff_string.erase(0, position + 1);
+                    //condition
+                    position = recvbuff_string.find(".");
+                    sub_string = recvbuff_string.substr(0, position);
+                    unsigned char online = 0;
+                    unsigned char online_tmp = 0;
+                    online = stoi(sub_string);
+                    online_tmp = online << 7;
+                    online_tmp = online_tmp >> 7;
+                    cout << "online: " << to_string(online_tmp) << "\r\n";
+                    recvbuff_string.erase(0, position + 1);
+                }
+                else {
+                    cout << "command_id: " << sub_string << "\r\n";
+                }
             }
         }
 
-        Sleep(500);
+        Sleep(2000);
         if (casambi_id < 0xFB) {
             casambi_id++;
         } else {

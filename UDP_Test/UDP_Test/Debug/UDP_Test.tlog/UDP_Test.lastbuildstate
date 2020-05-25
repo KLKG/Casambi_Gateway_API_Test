@@ -1,2 +1,2 @@
-PlatformToolSet=v142:VCToolArchitecture=Native32Bit:TargetPlatformVersion=10.0.18362.0:
-Debug|Win32|D:\github\Casambi_Gateway\Test_Software\UDP_Test\|
+PlatformToolSet=v142:VCToolArchitecture=Native32Bit:VCToolsVersion=14.26.28801:TargetPlatformVersion=10.0.18362.0:
+Debug|Win32|D:\github\Casambi_Gateway_API_Test\UDP_Test\|
