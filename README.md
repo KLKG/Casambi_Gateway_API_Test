@@ -18,4 +18,6 @@ The Demo is asking the casambi Network for all devices (1 to 251) and if the dev
 
 More commands that can be send and the documentation of these commands is in the manual of the Casambi Gateway.
 
+Caution: Works best with evolution firmware. Classic doesnt support all features.
+
 For more information visit: https://casambi.intelligent-lighting.de/.
