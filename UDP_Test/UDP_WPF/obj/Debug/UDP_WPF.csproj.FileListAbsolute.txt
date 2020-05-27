@@ -1,0 +1,16 @@
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\bin\Debug\UDP_WPF.exe.config
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\bin\Debug\UDP_WPF.exe
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\bin\Debug\UDP_WPF.pdb
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\UDP_WPF.csprojAssemblyReference.cache
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\MainWindow.g.cs
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\App.g.cs
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\UDP_WPF_MarkupCompile.cache
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\UDP_WPF_MarkupCompile.lref
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\MainWindow.baml
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\UDP_WPF.g.resources
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\UDP_WPF.Properties.Resources.resources
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\UDP_WPF.csproj.GenerateResource.cache
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\UDP_WPF.csproj.CoreCompileInputs.cache
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\UDP_WPF.exe
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\UDP_WPF.pdb
+C:\Users\Allers\Desktop\Casambi_Gateway_API_Test-master\UDP_Test\UDP_WPF\obj\Debug\GeneratedInternalTypeHelper.g.cs
