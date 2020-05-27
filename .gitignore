@@ -1,4 +1,5 @@
 UDP_Test/.vs/**
-UDP_Test/.vs/UDP_Test/v16/.suo
-UDP_Test/.vs/UDP_Test/v16/Browse.VC.db
-UDP_Test/.vs/UDP_Test/v16/Browse.VC.db
+UDP_Test/Debug/**
+UDP_Test/UDP_Test/Debug/**
+UDP_Test/UDP_WPF/bin/**
+UDP_Test/UDP_WPF/obj/**
