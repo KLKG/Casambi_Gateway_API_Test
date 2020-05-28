@@ -9,7 +9,9 @@ using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Automation.Peers;
+using System.Windows.Controls;
 
 namespace UDP_WPF
 {
@@ -28,6 +30,7 @@ namespace UDP_WPF
         UdpClient listener;
         Socket sender;
         IPAddress localIP;
+        internal ScrollViewer scrollViewer;
 
         #region udp-config and connect
         private bool _IsConfigEnabled = true;
@@ -137,9 +140,18 @@ namespace UDP_WPF
             set
             {
                 if (Set(ref _TestButtonState, value))
+                {
                     ChangeTestButtonState(value);
+                    TestVisibility = value ? Visibility.Visible : Visibility.Collapsed;
+                }
             }
         }
+
+        private int _TestProgress = 0;
+        public int TestProgress { get => _TestProgress; set => Set(ref _TestProgress, value); }
+
+        private Visibility _TestVisibility = Visibility.Collapsed;
+        public Visibility TestVisibility { get => _TestVisibility; set => Set(ref _TestVisibility, value); }
 
         // start/stop test button
         private void ChangeTestButtonState(bool value)
@@ -177,7 +189,7 @@ namespace UDP_WPF
                 if (!Send(signal)) break;
 
                 // inc casambi id
-                await Task.Delay(2000);
+                await Task.Delay(1000);
                 if (casambiID < 0xFB)
                     casambiID++;
                 else
@@ -185,6 +197,7 @@ namespace UDP_WPF
                     casambiID = 1;
                     AddLogLines(new string('-', 32));
                 }
+                TestProgress = casambiID - 1;
             }
             AddLogLines($"end test");
         }
@@ -197,9 +210,11 @@ namespace UDP_WPF
 
         public void AddLogLines(params string[] lines)
         {
+            var scroll = scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight;
             var d = DateTime.Now;
             foreach (var line in lines)
                 Log.Add($"{d.Hour:00}:{d.Minute:00}:{d.Second:00}.{d.Millisecond:000} \t{line}");
+            if (scroll) scrollViewer.ScrollToEnd();
         }
 
         private void AddLogException(string message, Exception ex)

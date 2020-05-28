@@ -25,6 +25,7 @@ namespace UDP_WPF
         {
             DataContext = ViewModel;
             InitializeComponent();
+            ViewModel.scrollViewer = scrollViewer;
         }
 
         private void Window_Unloaded(object sender, RoutedEventArgs e)
